@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qualityhealth
+spec:
+  selector:
+    app: qualityhealth
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qualityhealth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qualityhealth
+  template:
+    metadata:
+      labels:
+        app: qualityhealth
+    spec:
+      containers:
+        - name: app
+          image: amruthamishra9099/qualityhealth:2.0.0
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
